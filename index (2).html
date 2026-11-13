@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f7f9">
+<title>PRO.BINDS — Fortnite Player Database</title>
+<style>
+:root{--ink:#17233b;--muted:#748096;--line:#e8ecf2;--blue:#2867e8;--soft:#f5f7fa}
+*{box-sizing:border-box}body{margin:0;background:#f6f7f9;color:var(--ink);font-family:Inter,Arial,sans-serif}button,input,textarea{font:inherit}
+.top{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100% - 1160px)/2));position:sticky;top:0;z-index:3}
+.brand{font-weight:900;letter-spacing:1px;font-size:21px}.brand span{color:var(--blue)}.top-right{display:flex;align-items:center;gap:10px}.edit-btn{border:0;border-radius:8px;background:#17233b;color:#fff;padding:10px 15px;font-size:12px;font-weight:750;cursor:pointer}
+main{max-width:1160px;margin:auto;padding:38px 22px 70px}.view{display:none}.view.active{display:block}
+.heading{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}.heading h1{font-size:29px;letter-spacing:-.8px;margin:0 0 5px}.heading p{font-size:13px;color:var(--muted);margin:0}.total{font-size:11px;color:var(--muted);font-weight:750;letter-spacing:1px;white-space:nowrap}
+.search-wrap{position:relative;margin:0 0 23px}.search-wrap input{width:100%;height:46px;border:1px solid #e2e7ee;background:#fff;border-radius:9px;padding:0 15px 0 42px;font-size:13px;outline:none}.search-wrap input:focus{border-color:#9bb8f5;box-shadow:0 0 0 3px #2867e812}.search-icon{position:absolute;left:15px;top:14px;color:#8c97a9}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px 26px}
+.card{background:#fff;border:1px solid #edf0f4;border-radius:11px;box-shadow:0 2px 8px rgba(22,34,56,.07);padding:15px 14px 18px;text-align:center;cursor:pointer;transition:.18s;min-width:0}.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(22,34,56,.1)}
+.avatar{width:210px;height:210px;max-width:100%;border-radius:50%;margin:0 auto 16px;background:#f0f2f5;overflow:hidden;display:grid;place-items:center}.avatar img{width:100%;height:100%;object-fit:cover;object-position:center 22%}.fallback{font-size:45px;font-weight:800;color:#aeb7c5}
+.name{font-size:23px;font-weight:850;letter-spacing:-.5px;margin:0 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#14213a}.team{font-size:15px;color:#35445d;font-weight:700;min-height:20px;margin-bottom:10px}.earn-label{font-size:13px;color:#64748b;font-weight:700}.earn{font-size:17px;color:#17233b;font-weight:850;margin-top:3px}
+.back{border:0;background:transparent;color:#52627b;padding:0;margin:2px 0 22px;font-size:13px;font-weight:700;cursor:pointer}.back:hover{color:var(--blue)}
+.profile-head{display:flex;align-items:center;gap:22px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:20px;margin-bottom:23px}.profile-avatar{width:116px;height:116px;border-radius:50%;background:#f0f2f5;overflow:hidden;flex:none;display:grid;place-items:center}.profile-avatar img{width:100%;height:100%;object-fit:cover}.profile-info h1{font-size:29px;margin:0 0 7px;letter-spacing:-.8px}.profile-meta{display:flex;flex-wrap:wrap;gap:7px 17px;color:#748096;font-size:13px}.profile-meta b{color:#33425a;font-weight:700}.earn-big{margin-top:12px;font-size:12px;color:#778398}.earn-big strong{color:#263650;font-size:16px;margin-left:5px}
+.profile-title-block{display:flex;align-items:center;gap:28px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:24px 28px;margin-bottom:22px;box-shadow:0 3px 12px rgba(22,34,56,.045)}.profile-portrait{width:190px;height:190px;border-radius:50%;background:#f0f2f5;overflow:hidden;display:grid;place-items:center;flex:none}.profile-portrait img{width:100%;height:100%;object-fit:cover;object-position:center 20%}.profile-title-block h1{font-size:38px;letter-spacing:-1px;margin:0 0 13px;color:#14213a;font-weight:900}.profile-title-block .profile-meta{display:flex;flex-wrap:wrap;gap:10px 24px;color:#34445e;font-size:15px}.profile-title-block .profile-meta b{color:#17233b;font-weight:850}.profile-details{min-width:0}.section-title{display:flex;align-items:center;gap:9px}.section-icon{width:27px;height:27px;border-radius:8px;background:#edf3ff;color:#2867e8;display:inline-grid;place-items:center;font-size:15px;flex:none}.subsection-title{display:flex;align-items:center;gap:8px}.subsection-title .section-icon{width:23px;height:23px;font-size:13px}.bind-section{background:#fff;border:1px solid #e1e7ef;border-radius:13px;padding:22px 23px;margin:0 0 17px;box-shadow:0 3px 12px rgba(22,34,56,.045)}.bind-section h2{font-size:21px;letter-spacing:-.3px;margin:0 0 18px;color:#17233b;font-weight:900}.bind-subsection{margin:0 0 21px}.bind-subsection:last-child{margin-bottom:0}.bind-subsection h3{font-size:16px;font-weight:850;color:#34445e;margin:0 0 11px}.bind-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.bind-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px 16px;background:#f3f6fb;border:1px solid #e8edf5;border-radius:9px;font-size:14px;min-height:51px}.bind-row b{color:#263751;font-weight:750}.bind-row span{color:#1f5fc9;text-align:right;font-size:14px;font-weight:850;background:#e5edff;border-radius:6px;padding:5px 9px}.empty{color:#929cac;background:#f7f8fa;border-radius:8px;padding:15px;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(18,27,44,.38);display:none;align-items:center;justify-content:center;padding:16px;z-index:6}.modal.open{display:flex}.panel{background:#fff;width:min(760px,100%);max-height:92vh;overflow:auto;border-radius:14px;box-shadow:0 20px 70px #14213b30;padding:24px}.panel-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:18px}.panel-head h2{font-size:22px;margin:0}.close{border:0;background:#f0f2f5;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:20px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}.field label{font-size:11px;font-weight:750;color:#647187}.field input,.field textarea{border:1px solid #dfe4ec;border-radius:7px;padding:10px 11px;color:#17233b;background:#fff;outline:none;width:100%}.field input:focus,.field textarea:focus{border-color:#7da3f5}.field textarea{min-height:80px;resize:vertical}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.primary,.secondary,.danger{border:0;border-radius:7px;padding:10px 13px;font-size:12px;font-weight:750;cursor:pointer}.primary{background:#2867e8;color:#fff}.secondary{background:#eef1f5;color:#344258}.danger{background:#fff0f0;color:#c13d3d}
+.player-list{display:flex;flex-direction:column;gap:8px;margin:15px 0}.player-item{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px}.player-item button{border:0;background:#eef1f5;color:#344258;border-radius:6px;padding:6px 9px;cursor:pointer;font-size:11px}.player-item button.del{background:#fff0f0;color:#bf4444}
+.note{font-size:11px;color:#8993a5;line-height:1.5;margin-top:12px}.no-results{background:#fff;border:1px solid var(--line);padding:25px;text-align:center;color:var(--muted);border-radius:10px;font-size:13px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.avatar{width:180px;height:180px}}
+@media(max-width:650px){main{padding:28px 15px 55px}.top{padding:0 15px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.avatar{width: min(100%,145px);height:auto;aspect-ratio:1}.card{padding:12px 9px 16px}.name{font-size:18px}.team{font-size:13px}.earn-label{font-size:12px}.earn{font-size:15px}.heading h1{font-size:25px}.bind-list,.form-grid{grid-template-columns:1fr}.profile-title-block{padding:16px;gap:15px}.profile-portrait{width:100px;height:100px}.profile-title-block h1{font-size:27px}.profile-title-block .profile-meta{font-size:13px;gap:8px 15px}.bind-section{padding:17px}.bind-row{padding:13px}.panel{padding:17px}.top-right .edit-btn{padding:9px 10px}}
+
+/* Refined player cards */
+.card{position:relative;border:1px solid #e5eaf2;border-radius:17px;padding:22px 18px 21px;background:linear-gradient(180deg,#fff 0%,#fff 75%,#fbfcff 100%);box-shadow:0 4px 18px rgba(28,46,78,.055);transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{transform:translateY(-5px);border-color:#c8d8f4;box-shadow:0 13px 30px rgba(28,46,78,.12)}
+.card .avatar{width:215px;height:215px;max-width:100%;background:radial-gradient(circle at 50% 40%,#f4f7fc 0%,#edf2f9 75%);margin-bottom:19px;border:1px solid #f0f2f7}
+.card .name{font-size:25px;line-height:1.15;letter-spacing:-.65px;margin-bottom:8px;color:#15243e}
+.card .team{display:inline-block;min-height:0;margin:0 0 16px;padding:6px 11px;border-radius:30px;background:#f1f5fb;color:#536783;font-size:12px;font-weight:750}
+.card .earn-label{border-top:1px solid #edf0f5;padding-top:15px;font-size:11px;letter-spacing:.45px;text-transform:uppercase;font-weight:750;color:#8c98aa}
+.card .earn{font-size:21px;font-weight:850;letter-spacing:-.5px;color:#1a376d;margin-top:6px}
+@media(max-width:650px){.card{padding:15px 10px 17px;border-radius:13px}.card .avatar{width:155px;height:auto;aspect-ratio:1;margin-bottom:13px}.card .name{font-size:19px}.card .team{font-size:11px;padding:5px 9px;margin-bottom:12px}.card .earn{font-size:17px}.card .earn-label{padding-top:12px;font-size:10px}}
+.player-flag{display:inline-block;font-size:.72em;vertical-align:middle;margin-left:7px;line-height:1;filter:saturate(1.05)}.flag-emoji{width:22px;height:22px;object-fit:contain;vertical-align:-3px}
+
+/* Compact player information table */
+.profile-title-block{align-items:center;gap:32px}
+.profile-details{flex:1;min-width:0}
+.profile-title-block h1{margin-bottom:17px}
+.player-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:26px}
+.fact{display:grid;grid-template-columns:78px minmax(0,1fr);align-items:center;gap:8px;border-bottom:1px solid #e8edf2;padding:10px 0;font-size:14px;min-width:0}
+.fact-label{color:#79859a;font-weight:500}.fact strong{font-weight:700;color:#23324a;overflow-wrap:anywhere}.fact-earn{grid-column:1/-1;border-bottom:0}.fact-earn strong{color:#23324a;font-size:inherit}
+@media(max-width:750px){.profile-title-block{gap:18px}.profile-portrait{width:125px;height:125px}.player-facts{column-gap:12px}.fact{grid-template-columns:65px minmax(0,1fr);font-size:12px}}
+@media(max-width:540px){.profile-title-block{align-items:center;gap:14px}.profile-portrait{width:88px;height:88px}.profile-title-block h1{font-size:25px;margin-bottom:9px}.player-facts{grid-template-columns:1fr}.fact{padding:6px 0}.fact-earn{grid-column:auto}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand">PRO<span>.</span>BINDS</div>
+ <div class="top-right"><button class="edit-btn" id="openEditor">✎ Edit website</button></div>
+</header>
+<main>
+ <section id="homeView" class="view active">
+  <div class="heading"><div><h1>Pro Players</h1><p>Search for a Fortnite player and explore their complete keybinds.</p></div><div class="total" id="count">08 PLAYERS</div></div>
+  <div class="search-wrap"><span class="search-icon">⌕</span><input id="search" type="search" placeholder="Search players, teams or countries..." autocomplete="off"></div>
+  <section class="grid" id="grid"></section>
+  <div id="noResults" class="no-results" hidden>No players found. Try another search.</div>
+ </section>
+ <section id="profileView" class="view">
+  <button class="back" id="backHome">← Back to players</button>
+  <div id="profileContent"></div>
+ </section>
+</main>
+
+<div class="modal" id="editorModal"><div class="panel">
+ <div class="panel-head"><h2 id="editorTitle">Manage players</h2><button class="close" id="closeEditor">×</button></div>
+ <div id="editorHome">
+  <button class="primary" id="addPlayer">+ Add player</button>
+  <div class="player-list" id="playerList"></div>
+  <div class="editor-actions"><button class="secondary" id="exportData">Export data</button><button class="secondary" id="importData">Import data</button><input type="file" id="importFile" accept=".json,application/json" hidden></div>
+  <p class="note">Your changes are saved in this browser. Export a JSON backup to move your player database to another browser or device.</p>
+ </div>
+ <div id="playerEditor" hidden>
+  <div class="form-grid">
+   <div class="field"><label>PLAYER NAME</label><input id="pName" placeholder="e.g. SHXRK"></div>
+   <div class="field"><label>REAL NAME</label><input id="pRealName" placeholder="e.g. Danila Yakovenko"></div>
+   <div class="field"><label>DATE OF BIRTH</label><input id="pBirthday" type="date"></div>
+   <div class="field"><label>COUNTRY / WHERE THEY ARE FROM</label><input id="pCountry" placeholder="e.g. Romania"></div>
+   <div class="field"><label>FLAG (OPTIONAL — EMOJI OR COUNTRY CODE)</label><input id="pFlag" placeholder="e.g. 🇷🇴 or RO (auto from country if empty)"></div>
+   <div class="field"><label>TEAM / ORGANIZATION</label><input id="pTeam" placeholder="e.g. Team name or Free Agent"></div>
+   <div class="field"><label>EARNINGS</label><input id="pEarnings" placeholder="e.g. $125,000"></div>
+  </div>
+  <div class="field"><label>PROFILE PHOTO URL</label><input id="pPhoto" placeholder="Paste a direct image URL"></div>
+  <div class="field"><label>MOVEMENT BINDS (one per line: action = key)</label><textarea id="pMovement" placeholder="Move Forward = W&#10;Jump = Space"></textarea></div>
+  <div class="field"><label>COMBAT BINDS</label><textarea id="pCombat" placeholder="Pickaxe = 1&#10;Shotgun = 2"></textarea></div>
+  <div class="field"><label>BUILDING BINDS</label><textarea id="pBuilding" placeholder="Wall = Mouse Button 5&#10;Floor = C"></textarea></div>
+  <div class="field"><label>EDITING BINDS</label><textarea id="pEditing" placeholder="Edit = E&#10;Reset = Mouse Wheel Down"></textarea></div>
+  <div class="field"><label>WEAPON BINDS</label><textarea id="pWeapons" placeholder="Pickaxe = 1&#10;Shotgun = 2"></textarea></div>
+  <div class="field"><label>DISPLAY SETTINGS</label><textarea id="pDisplay" placeholder="Window Mode = Fullscreen&#10;Resolution = 1920x1080"></textarea></div>
+  <div class="field"><label>GRAPHICS SETTINGS</label><textarea id="pGraphics" placeholder="Brightness = 100%&#10;User Interface Contrast = 1x"></textarea></div>
+  <div class="field"><label>GRAPHICS QUALITY</label><textarea id="pGraphicsQuality" placeholder="3D Resolution = 100%&#10;View Distance = Far"></textarea></div>
+  <div class="field"><label>ADVANCED GRAPHICS</label><textarea id="pAdvancedGraphics" placeholder="V-Sync = Off&#10;Motion Blur = Off"></textarea></div>
+  <div class="field"><label>MOUSE SETTINGS</label><textarea id="pMouse" placeholder="DPI = 800&#10;X-Axis Sensitivity = 8.0%"></textarea></div>
+  <div class="field"><label>OTHER BINDS</label><textarea id="pOther" placeholder="Map = M&#10;Inventory = Tab"></textarea></div>
+  <div class="editor-actions"><button class="primary" id="savePlayer">Save player</button><button class="secondary" id="cancelEdit">Back</button></div>
+ </div>
+</div></div>
+<script>
+const starter=[
+{id:"pxlarized",name:"Pxlarized",country:"",team:"Free Agent",earnings:"—",photo:"",binds:{}},
+{id:"cooper",name:"Cooper",country:"",team:"Dignitas",earnings:"—",photo:"",binds:{}},
+{id:"malibuca",name:"Malibuca",country:"",team:"BIG",earnings:"—",photo:"",binds:{}},
+{id:"martoz",name:"Martoz",country:"",team:"Content Creator",earnings:"—",photo:"",binds:{}},
+{id:"setty",name:"Setty",country:"",team:"Free Agent",earnings:"—",photo:"",binds:{}},
+{id:"itsjerian",name:"itsJerian",country:"",team:"Content Creator",earnings:"—",photo:"",binds:{}},
+{id:"mero",name:"Mero",country:"",team:"Xen",earnings:"—",photo:"",binds:{}},
+{id:"toose",name:"Toose",country:"",team:"Free Agent",earnings:"—",photo:"",binds:{}}
+];
+const categories=["Movement","Building","Editing","Weapons","Other"];
+let players;try{players=JSON.parse(localStorage.getItem("probinds_players"))||starter}catch(e){players=starter}
+let editingId=null;
+const $=id=>document.getElementById(id);
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function flagFor(p){
+ const raw=String(p.flag||p.country||"").trim();
+ if(!raw)return "";
+ if(/^[\u{1F1E6}-\u{1F1FF}]{2}$/u.test(raw))return raw;
+ const countries={romania:"RO",russia:"RU",poland:"PL",usa:"US", "united states":"US",america:"US",canada:"CA",netherlands:"NL",holland:"NL",ukraine:"UA",slovakia:"SK",czechia:"CZ", "czech republic":"CZ",germany:"DE",france:"FR",uk:"GB", "united kingdom":"GB",england:"GB",sweden:"SE",denmark:"DK",norway:"NO",finland:"FI",austria:"AT",switzerland:"CH",spain:"ES",italy:"IT",brazil:"BR",australia:"AU",japan:"JP",turkey:"TR",serbia:"RS",croatia:"HR",belgium:"BE",portugal:"PT",hungary:"HU",latvia:"LV",lithuania:"LT",estonia:"EE",bulgaria:"BG",greece:"GR",ireland:"IE"};
+ const code=countries[raw.toLowerCase()]||raw.toUpperCase();
+ if(!/^[A-Z]{2}$/.test(code))return "";
+ return [...code].map(c=>String.fromCodePoint(127397+c.charCodeAt(0))).join("");
+}
+function flagMarkup(p){const f=flagFor(p);if(!f)return "";
+ const cp=[...f].map(ch=>ch.codePointAt(0).toString(16)).join("-");
+ return `<img class="player-flag flag-emoji" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${cp}.svg" alt="${f}" title="${esc(p.country||'Country flag')}" onerror="this.replaceWith(document.createTextNode(this.alt))">`;}
+function persist(){localStorage.setItem("probinds_players",JSON.stringify(players));}
+function render(){
+ const q=$("search").value.trim().toLowerCase();
+ const filtered=players.filter(p=>[p.name,p.country,p.team].join(" ").toLowerCase().includes(q));
+ $("count").textContent=String(players.length).padStart(2,"0")+" PLAYERS";
+ $("grid").innerHTML=filtered.map(p=>`<article class="card" data-id="${esc(p.id)}">
+ <div class="avatar">${p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.name)}" onerror="this.remove()">`:`<span class="fallback">${esc((p.name||"?").slice(0,1).toUpperCase())}</span>`}</div>
+ <h3 class="name">${esc(p.name)}${flagMarkup(p)}</h3><div class="team">${esc(p.team||"")}</div><div class="earn-label">Earnings</div><div class="earn">${esc(p.earnings||"—")}</div></article>`).join("");
+ $("noResults").hidden=filtered.length!==0;
+ document.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>showProfile(c.dataset.id)));
+}
+function formatBirthday(value){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value||"");if(!m)return value;return new Date(Date.UTC(+m[1],+m[2]-1,+m[3])).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric",timeZone:"UTC"});}
+function showProfile(id){
+ const p=players.find(x=>x.id===id);if(!p)return;
+ const sections=[
+  {title:"Mouse",icon:"🖱",groups:[["Mouse",""]]},
+  {title:"Keybinds",icon:"⌨",groups:[["Movement",""],["Combat",""],["Building",""]]},
+  {title:"Video Settings",icon:"▣",groups:[["Display",""],["Graphics",""],["Graphics Quality",""],["Advanced Graphics",""]]}
+ ];
+ $("profileContent").innerHTML=`
+ <div class="profile-title-block">
+  <div class="profile-portrait">${p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.name)}" onerror="this.remove()">`:`<span class="fallback">${esc((p.name||"?").slice(0,1).toUpperCase())}</span>`}</div>
+  <div class="profile-details"><h1>${esc(p.name)}${flagMarkup(p)}</h1>
+   <div class="player-facts">
+    <div class="fact"><span class="fact-label">Team</span><strong>${esc(p.team||"—")}</strong></div>
+    <div class="fact"><span class="fact-label">Country</span><strong>${esc(p.country||"—")} ${flagMarkup(p)}</strong></div>
+    <div class="fact"><span class="fact-label">Name</span><strong>${esc(p.realName||"—")}</strong></div>
+    <div class="fact"><span class="fact-label">Birthday</span><strong>${p.birthday?esc(formatBirthday(p.birthday)):"—"}</strong></div>
+    <div class="fact fact-earn"><span class="fact-label">Earnings</span><strong>${esc(p.earnings||"—")}</strong></div>
+   </div>
+  </div>
+ </div>
+ ${sections.map(section=>`<section class="bind-section"><h2 class="section-title"><span class="section-icon">${section.icon}</span>${section.title}</h2>
+ ${section.groups.map(([cat,icon])=>{const entries=Object.entries(p.binds?.[cat]||{});return `<div class="bind-subsection"><h3 class="subsection-title">${cat}</h3>${entries.length?`<div class="bind-list">${entries.map(([k,v])=>`<div class="bind-row"><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join("")}</div>`:`<div class="empty">No ${cat.toLowerCase()} settings have been added yet.</div>`}</div>`}).join("")}
+ </section>`).join("")}`;
+ $("homeView").classList.remove("active");$("profileView").classList.add("active");window.scrollTo(0,0);
+}
+function showHome(){$("profileView").classList.remove("active");$("homeView").classList.add("active");window.scrollTo(0,0)}
+$("backHome").onclick=showHome;$("search").addEventListener("input",render);
+function renderPlayerList(){
+ $("playerList").innerHTML=players.map(p=>`<div class="player-item"><span>${esc(p.name)}</span><span><button data-edit="${esc(p.id)}">Edit</button> <button class="del" data-delete="${esc(p.id)}">Delete</button></span></div>`).join("");
+ document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editPlayer(b.dataset.edit));
+ document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>{if(confirm("Delete this player?")){players=players.filter(p=>p.id!==b.dataset.delete);persist();render();renderPlayerList()}});
+}
+function toText(o){return Object.entries(o||{}).map(([k,v])=>`${k} = ${v}`).join("\n")}
+function fromText(s){const o={};s.split("\n").forEach(line=>{const i=line.indexOf("=");if(i>0){const k=line.slice(0,i).trim(),v=line.slice(i+1).trim();if(k&&v)o[k]=v}});return o}
+function editPlayer(id){
+ editingId=id||null;const p=players.find(x=>x.id===id)||{name:"",country:"",team:"",earnings:"",photo:"",binds:{}};
+ $("editorTitle").textContent=id?"Edit player":"Add player";
+ $("pName").value=p.name||"";$("pRealName").value=p.realName||"";$("pBirthday").value=p.birthday||"";$("pCountry").value=p.country||"";$("pFlag").value=p.flag||"";$("pTeam").value=p.team||"";$("pEarnings").value=p.earnings||"";$("pPhoto").value=p.photo||"";
+ $("pMovement").value=toText(p.binds?.Movement);$("pCombat").value=toText(p.binds?.Combat);$("pBuilding").value=toText(p.binds?.Building);$("pDisplay").value=toText(p.binds?.Display);$("pGraphics").value=toText(p.binds?.Graphics);$("pGraphicsQuality").value=toText(p.binds?.["Graphics Quality"]);$("pAdvancedGraphics").value=toText(p.binds?.["Advanced Graphics"]);$("pMouse").value=toText(p.binds?.Mouse);$("pEditing").value=toText(p.binds?.Editing);$("pWeapons").value=toText(p.binds?.Weapons);$("pOther").value=toText(p.binds?.Other);
+ $("editorHome").hidden=true;$("playerEditor").hidden=false;
+}
+function editorHome(){$("editorTitle").textContent="Manage players";$("playerEditor").hidden=true;$("editorHome").hidden=false;renderPlayerList()}
+$("openEditor").onclick=()=>{$("editorModal").classList.add("open");editorHome()};
+$("closeEditor").onclick=()=>$("editorModal").classList.remove("open");
+$("addPlayer").onclick=()=>editPlayer(null);$("cancelEdit").onclick=editorHome;
+$("savePlayer").onclick=()=>{
+ const name=$("pName").value.trim();if(!name){alert("Please enter a player name.");return}
+ const p={id:editingId||("player-"+Date.now()),name,realName:$("pRealName").value.trim(),birthday:$("pBirthday").value,country:$("pCountry").value.trim(),flag:$("pFlag").value.trim(),team:$("pTeam").value.trim(),earnings:$("pEarnings").value.trim()||"—",photo:$("pPhoto").value.trim(),binds:{
+ Movement:fromText($("pMovement").value),Combat:fromText($("pCombat").value),Building:fromText($("pBuilding").value),Display:fromText($("pDisplay").value),Graphics:fromText($("pGraphics").value), "Graphics Quality":fromText($("pGraphicsQuality").value), "Advanced Graphics":fromText($("pAdvancedGraphics").value),Mouse:fromText($("pMouse").value),Editing:fromText($("pEditing").value),Weapons:fromText($("pWeapons").value),Other:fromText($("pOther").value)}};
+ const i=players.findIndex(x=>x.id===editingId);if(i>=0)players[i]=p;else players.push(p);
+ persist();render();editorHome();
+};
+$("exportData").onclick=()=>{const blob=new Blob([JSON.stringify(players,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="pro-binds-data.json";a.click();URL.revokeObjectURL(a.href)};
+$("importData").onclick=()=>$("importFile").click();
+$("importFile").onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());if(!Array.isArray(data))throw Error();players=data;persist();render();renderPlayerList()}catch(err){alert("Could not import this JSON file.")}e.target.value=""};
+$("editorModal").addEventListener("click",e=>{if(e.target===$("editorModal"))$("editorModal").classList.remove("open")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("editorModal").classList.remove("open")});
+render();
+</script>
+</body></html>
